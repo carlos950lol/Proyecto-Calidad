@@ -3,7 +3,7 @@
 ## Inicio
 
 ```powershell
-npm start
+npm.cmd start
 ```
 
 Abrir `http://localhost:3000` en el navegador. La API usa las variables de `.env` y MySQL en el puerto `3308`.
@@ -14,8 +14,11 @@ Abrir `http://localhost:3000` en el navegador. La API usa las variables de `.env
 - `public/css/estilos.css`: estilos globales y responsive del portal.
 - `public/js/configuracion.js`: nombre institucional, grupos y usuarios demo.
 - `public/js/estado-datos.js`: estado de sesión, almacenamiento local y sincronización con la API.
-- `public/js/aplicacion.js`: navegación, renderizado y acciones de las pantallas.
-- `servidor.js`: servidor HTTP, recursos estáticos, rutas `/api`, consultas agregadas del dashboard y acceso seguro a tablas permitidas.
+- `public/js/gestion-academica.js`: matrículas, registros, reclamos y secciones.
+- `public/js/calificaciones.js`: cálculos, filtros, edición y exportación de calificaciones.
+- `public/js/aplicacion.js`: acceso, navegación, dashboard y vistas compartidas.
+- `servidor.js`: servidor HTTP, recursos estáticos y rutas `/api`.
+- `consultas.js`: conexión MySQL, consultas del dashboard y clasificación de errores de base de datos.
 - `sistema_academico.sql`: crea la base completa, relaciones, cuentas demo y datos iniciales.
 - `.env`: configuracion local de MySQL y del puerto de la API.
 - `package.json`: dependencias y comando de inicio.

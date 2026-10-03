@@ -1,11 +1,20 @@
 let CU=null,currentRole='teacher',allStudents=[],allGrades=[],allTasks=[],taskFilter='all',allMatriculas=[],allReclamos=[],allRegistros=[],dashboardStats={};
 
 const DATA_KEY='academia_decam_data_v2';
-const DATA_COLLECTIONS=['allStudents','allGrades','allTasks','allMatriculas','allReclamos','allRegistros'];
+const DATA_COLLECTIONS={
+  allStudents:{get:()=>allStudents,set:value=>allStudents=value},
+  allGrades:{get:()=>allGrades,set:value=>allGrades=value},
+  allTasks:{get:()=>allTasks,set:value=>allTasks=value},
+  allMatriculas:{get:()=>allMatriculas,set:value=>allMatriculas=value},
+  allReclamos:{get:()=>allReclamos,set:value=>allReclamos=value},
+  allRegistros:{get:()=>allRegistros,set:value=>allRegistros=value}
+};
 async function loadDataStore(){
   try{
     const stored=JSON.parse(localStorage.getItem(DATA_KEY)||'{}');
-    DATA_COLLECTIONS.forEach(k=>{if(Array.isArray(stored[k]))window[k]=stored[k];});
+    Object.entries(DATA_COLLECTIONS).forEach(([key,accessors])=>{
+      if(Array.isArray(stored[key]))accessors.set(stored[key]);
+    });
   }catch(error){console.warn('No se pudo cargar el almacenamiento local',error);}
   try{
     const response=await fetch(CFG.apiUrl+'/api/dashboard');
@@ -26,8 +35,9 @@ async function loadDataStore(){
   updateDataStatus();
 }
 function saveDataStore(){
-  const payload={};
-  DATA_COLLECTIONS.forEach(k=>{payload[k]=window[k];});
+  const payload=Object.fromEntries(
+    Object.entries(DATA_COLLECTIONS).map(([key,accessors])=>[key,accessors.get()])
+  );
   localStorage.setItem(DATA_KEY,JSON.stringify(payload));
   updateDataStatus();
   if(CFG.apiUrl) syncDataWithApi(payload);
